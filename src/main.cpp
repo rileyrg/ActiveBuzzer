@@ -1,10 +1,22 @@
 #include <Arduino.h>
-int buzzer=5; 
+#define buzzerPin 5
+#define togglePin 2
+
+void toggleBuzzer();
+boolean buzzerState=LOW;
+
 void setup()
 {
-pinMode(buzzer,OUTPUT);
+  pinMode(buzzerPin,OUTPUT);
+  pinMode(togglePin,INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(togglePin), toggleBuzzer,RISING);
+  digitalWrite(buzzerPin,buzzerState);
 }
 void loop()
 {
-digitalWrite(buzzer, HIGH); // produce sound
+  digitalWrite(buzzerPin,buzzerState); // produce sound
+}
+
+void toggleBuzzer(){
+  buzzerState=!buzzerState;
 }
